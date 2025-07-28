@@ -1,23 +1,21 @@
-// db.js
-import { createConnection } from 'mysql2';
+import { createConnection } from 'mysql';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connection = createConnection({
-host: process.env.DB_HOST,
-user: process.env.DB_USER, 
-password: process.env.DB_PASSWORD ,
-database: process.env.DB_NAME ,    
-port: process.env.DB_PORT                                                                                                         
+const db = createConnection({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'inventario_db',
 });
-console.log(process.env.DB_HOST);
-connection.connect(err => {
+
+db.connect((err) => {
   if (err) {
-   console.error('Error de conexión:', err);
+    console.error('Error al conectar a la base de datos:', err.message);
   } else {
-    console.log('Conectado a RDS MySQL');
+    console.log('Conexión exitosa a la base de datos MySQL');
   }
 });
 
-export default connection;
+export default db;
